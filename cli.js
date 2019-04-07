@@ -19,8 +19,8 @@ class MusicCollection {            // Class to store music collection and method
 
     }
 
-    get showAll() {
-
+    showAll() {
+        return this.collection.forEach((value, key) => console.log(`${key} by ${value.artist}`));
     }
 
     get getPlayed() {
@@ -34,7 +34,7 @@ class MusicCollection {            // Class to store music collection and method
 
 const musicCollection = new MusicCollection();
 
-const parseInput = /\w+|"[^"]*"/g; // Split input on words and quotes
+const parseInput = /[A-Za-z]+(\s[A-Za-z]+)?|"[^"]*"/g; // RegEx input on groups of words and words grouped by quotes
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -43,15 +43,16 @@ const rl = readline.createInterface({
 
 console.log("Welcome to your music collection! \n")
 const getUserInput = function() {
-    rl.question("> ", function(answer) {
+    rl.question("> ", function (answer) {
 
         const input = answer.match(parseInput); // Split input into a list of statement
 
-        switch(input[0]) {
+        switch (input[0]) {
 
             case("quit"):
                 console.log("Bye!");
                 rl.close();
+                break;
 
             case("add"):
 
@@ -59,8 +60,7 @@ const getUserInput = function() {
 
                     console.log("Input must be in the form:\nadd \"album\" \"artist\"");
                     getUserInput();
-                }
-                else {
+                } else {
 
                     const album = input[1];
                     const artist = input[2].slice(1, -1); // Store artist without quotes.
@@ -74,13 +74,20 @@ const getUserInput = function() {
                         getUserInput();
                     }
                 }
+                break;
 
             case("show all"):
 
-            default:
-                console.log("Unknown command. Please try again.")
+                musicCollection.showAll();
                 getUserInput();
+                break;
+
+            default:
+                console.log("Unknown command. Please try again.");
+                getUserInput();
+                break;
         }
     });
+}
 
 getUserInput();
