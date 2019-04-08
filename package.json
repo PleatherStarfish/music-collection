@@ -4,7 +4,7 @@
   "description": "cli to manage a music collection",
   "main": "cli.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "jest --detectOpenHandles"
   },
   "keywords": [
     "music",
