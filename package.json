@@ -13,8 +13,6 @@
   "author": "Daniel Miller",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^6.2.2",
-    "shelljs": "^0.8.3"
   },
   "bin": {
     "music": "./cli.js"

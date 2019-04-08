@@ -14,7 +14,6 @@
 // show al played by ${artist}
 // =============================
 
-const inquirer = require("inquirer");
 const readline = require('readline');
 
 // MusicCollection class instances represent music collections and methods on those collections
