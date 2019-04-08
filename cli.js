@@ -23,6 +23,111 @@ class MusicCollection {
         this.collectionByArtist = new Map();
     }
 
+    returnMusic(input) {
+        // Switch statement evaluates user input commands
+        switch (input[0]) {
+
+            case("quit"):
+                console.log("Bye!");
+                rl.close();
+                break;
+
+            case("add"):
+
+                const album = input[1];
+                const artist = input[2].slice(1, -1); // Store artist without quotes.
+
+                //
+                if (input.length !== 3 || !album || !artist) {
+
+                    console.log("Input must be in the form:\nadd \"Album\" \"Artist\"");
+                    getUserInput();
+                }
+                else {
+
+                    // Check if an album is already in the collection
+                    if (this.collection.has(album)) {
+                        console.log("Album is already in the collection.");
+                        getUserInput();
+                    } else {
+                        this.add(album, artist);
+                        getUserInput();
+                    }
+                }
+                break;
+
+            case("show all"):
+
+                this.showAll();
+                getUserInput();
+                break;
+
+            case("play"):
+
+                this.play(input[1]);
+                getUserInput();
+                break;
+
+            case("show played"):
+
+                this.getPlayed();
+                getUserInput();
+                break;
+
+            case("show unplayed"):
+
+                this.getUnplayed();
+                getUserInput();
+                break;
+
+            case("show all by"):
+
+                if (input.length !== 2 || !input[1].slice(1, -1)) {
+
+                    console.log("Input must be in the form:\nshow all by \"Artist\"");
+                    getUserInput();
+                    break;
+                }
+                else {
+
+                    this.getAlbumsBy(input[1].slice(1, -1));
+                    getUserInput();
+                    break;
+                }
+
+            case("show played by"):
+                if (input.length !== 2 || !input[1].slice(1, -1)) {
+
+                    console.log("Input must be in the form:\nshow played by \"Artist\"");
+                    getUserInput();
+                    break;
+                }
+                else {
+                    this.getPlayedBy(input[1].slice(1, -1));
+                    getUserInput();
+                    break;
+                }
+
+            case("show unplayed by"):
+                if (input.length !== 2 || !input[1].slice(1, -1)) {
+
+                    console.log("Input must be in the form:\nshow unplayed by \"Artist\"");
+                    getUserInput();
+                    break;
+                }
+                else {
+                    this.getUnplayedBy(input[1].slice(1, -1));
+                    getUserInput();
+                    break;
+                }
+
+            default:
+                console.log("Unknown command. Please try again.");
+                getUserInput();
+                break;
+        }
+    }
+
     add(album, artist, played=false) {
 
         // Add album to main collection
@@ -119,109 +224,8 @@ const getUserInput = function() {
     rl.question("> ", function (answer) {
 
         const input = answer.match(parseInput); // Split input into commands with RegEx
+        musicCollection.returnMusic(input); // pass user-entered input to switch in class
 
-        // Switch statement evaluates user input commands
-        switch (input[0]) {
-
-            case("quit"):
-                console.log("Bye!");
-                rl.close();
-                break;
-
-            case("add"):
-
-                const album = input[1];
-                const artist = input[2].slice(1, -1); // Store artist without quotes.
-
-                //
-                if (input.length !== 3 || !album || !artist) {
-
-                    console.log("Input must be in the form:\nadd \"Album\" \"Artist\"");
-                    getUserInput();
-                }
-                else {
-
-                    // Check if an album is already in the collection
-                    if (musicCollection.collection.has(album)) {
-                        console.log("Album is already in the collection.");
-                        getUserInput();
-                    } else {
-                        musicCollection.add(album, artist);
-                        getUserInput();
-                    }
-                }
-                break;
-
-            case("show all"):
-
-                musicCollection.showAll();
-                getUserInput();
-                break;
-
-            case("play"):
-
-                musicCollection.play(input[1]);
-                getUserInput();
-                break;
-
-            case("show played"):
-
-                musicCollection.getPlayed();
-                getUserInput();
-                break;
-
-            case("show unplayed"):
-
-                musicCollection.getUnplayed();
-                getUserInput();
-                break;
-
-            case("show all by"):
-
-                if (input.length !== 2 || !input[1].slice(1, -1)) {
-
-                    console.log("Input must be in the form:\nshow all by \"Artist\"");
-                    getUserInput();
-                    break;
-                }
-                else {
-
-                    musicCollection.getAlbumsBy(input[1].slice(1, -1));
-                    getUserInput();
-                    break;
-                }
-
-            case("show played by"):
-                if (input.length !== 2 || !input[1].slice(1, -1)) {
-
-                    console.log("Input must be in the form:\nshow played by \"Artist\"");
-                    getUserInput();
-                    break;
-                }
-                else {
-                    musicCollection.getPlayedBy(input[1].slice(1, -1));
-                    getUserInput();
-                    break;
-                }
-
-            case("show unplayed by"):
-                if (input.length !== 2 || !input[1].slice(1, -1)) {
-
-                    console.log("Input must be in the form:\nshow unplayed by \"Artist\"");
-                    getUserInput();
-                    break;
-                }
-                else {
-                    musicCollection.getUnplayedBy(input[1].slice(1, -1));
-                    getUserInput();
-                    break;
-                }
-
-            default:
-                console.log("Unknown command. Please try again.");
-                getUserInput();
-                break;
-        }
     });
 };
 
