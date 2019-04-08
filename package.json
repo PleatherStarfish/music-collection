@@ -4,7 +4,7 @@
   "description": "cli to manage a music collection",
   "main": "cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "keywords": [
     "music",
@@ -18,5 +18,8 @@
   },
   "bin": {
     "music": "./cli.js"
+  },
+  "devDependencies": {
+    "jest": "^24.7.1"
   }
 }
