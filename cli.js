@@ -29,19 +29,15 @@ class MusicCollection {
         this.collection.set(album, { ["title"]: album, ["artist"]: artist, ["played"]: played });
 
         // Cache album as unplayed unless "played" property is true
-        if (played) {
-            this.playedTracks.set(album, {["title"]: album, ["artist"]: artist});
-        }
-        else {
-            this.unplayedTracks.set(album, {["title"]: album, ["artist"]: artist});
-        }
+        if (played) { this.playedTracks.set(album, {["title"]: album, ["artist"]: artist}); }
+        else { this.unplayedTracks.set(album, {["title"]: album, ["artist"]: artist}); }
 
         // Cache data in new table by artist name
         if (this.collectionByArtist.has(artist)) {
             this.collectionByArtist.get(artist).push({ ["title"]: album, ["artist"]: artist, ["played"]: played });
         }
         else {
-            this.collectionByArtist.set(artist, new Array({ ["title"]: album, ["artist"]: artist, ["played"]: played }));
+            this.collectionByArtist.set(artist, new Array({ ["title"]: album, ["artist"]: artist, ["played"]: played } ));
         }
 
         console.log(`Added ${album} by ${artist}`);
@@ -80,25 +76,41 @@ class MusicCollection {
             console.log(`${key} by ${value.artist}`)
         );
     }
-};
+
+    // ****
+    getAlbumsBy(artist) {
+        console.log(this.collectionByArtist.get(artist));
+    }
+
+    // ****
+    getPlayedBy(artist) {
+
+    }
+
+    // ****
+    getUnplayedBy(artist) {
+
+    }
+}
 
 const musicCollection = new MusicCollection();
 
-const parseInput = /[A-Za-z]+(\s[A-Za-z]+)?|"[^"]*"/g; // RegEx input on groups of words and words grouped by quotes
+const parseInput = /(?=\S)[\w\s]+(?<=\S)|"[\w"]*"/g; // RegEx input on groups of words and words grouped by quotes
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-console.log("Welcome to your music collection! \n")
+console.log("Welcome to your music collection! \n");
 const getUserInput = function() {
     rl.question("> ", function (answer) {
 
         const input = answer.match(parseInput); // Split input into commands with RegEx
+        console.log(input);
 
         // Switch statement evaluates user input commands
-        switch (input[0]) {
+        switch (input[0].trim()) {
 
             case("quit"):
                 console.log("Bye!");
@@ -110,11 +122,13 @@ const getUserInput = function() {
                 const album = input[1];
                 const artist = input[2].slice(1, -1); // Store artist without quotes.
 
+                //
                 if (input.length !== 3) {
 
                     console.log("Input must be in the form:\nadd \"album\" \"artist\"");
                     getUserInput();
-                } else {
+                }
+                else {
 
                     // Check if an album is already in the collection
                     if (musicCollection.collection.has(album)) {
@@ -148,6 +162,13 @@ const getUserInput = function() {
             case("show unplayed"):
 
                 musicCollection.getUnplayed();
+                getUserInput();
+                break;
+
+            case("show all by"):
+
+                console.log("show all by")
+                musicCollection.getAlbumsBy(input[1]);
                 getUserInput();
                 break;
 
